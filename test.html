@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+<h1>The script element</h1>
+
+<p id="demo"></p>
+
+<script>
+var myprofiler = null;
+	
+	var myGapFinder = function(myarray){
+		var samplesWithSmallGapCount = 0;
+		var smallestGap;
+		var gapThreshold = 10; // choosing really small threshold to take it to the extreme 
+		var samplesGapIndexex = [];
+		
+		for (var i = 1; i < myarray.length; i++) {
+			var gap = myarray[i].timestamp - myarray[i-1].timestamp;
+			if(gap < gapThreshold) {
+				samplesWithSmallGapCount++;
+				if(gap < smallestGap || smallestGap === undefined )
+				{
+					smallestGap = gap;
+				}
+				samplesGapIndexex.push("{" + i.toString() + ","+ (i-1).toString() + "}")
+			}
+		}
+		
+		if (samplesWithSmallGapCount < 2)
+		{
+			main();
+		}
+		else
+		{
+			console.log("samplesWithSmallGapCount: " + samplesWithSmallGapCount + ", smallestGap: " + smallestGap + ", samplesGapIndexex: " + samplesGapIndexex);
+			console.log(myarray);
+		}
+	}
+
+
+  async function stopProilfer () {
+		const mytrace = await myprofiler.stop();
+		//console.log("profiler stopped");
+		//console.log(mytrace);
+		myGapFinder(mytrace.samples)	  	  
+    };
+        
+   async function main() {
+   		//console.log("mmm starting");
+      	myprofiler = new Profiler({ sampleInterval: 16, maxBufferSize: 10000 });
+		//console.log("started");
+
+		setTimeout(stopProilfer,1000);
+   };
+
+    main();
+   
+</script> 
+
+</body>
+</html>
+
+
+
+
+
