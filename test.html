@@ -11,10 +11,11 @@
 <script>
 var myprofiler = null;
 	
-	var myGapFinder = function(myarray){
+	var myGapFinder = function(mytrace){
+		var myarray = mytrace.samples;
 		var samplesWithSmallGapCount = 0;
 		var smallestGap;
-		var gapThreshold = 10; // choosing really small threshold to take it to the extreme 
+		var gapThreshold = 5; // choosing really small threshold to take it to the extreme 
 		var samplesGapIndexex = [];
 		
 		for (var i = 1; i < myarray.length; i++) {
@@ -36,7 +37,7 @@ var myprofiler = null;
 		else
 		{
 			console.log("samplesWithSmallGapCount: " + samplesWithSmallGapCount + ", smallestGap: " + smallestGap + ", samplesGapIndexex: " + samplesGapIndexex);
-			console.log(myarray);
+			console.log(mytrace);
 		}
 	}
 
@@ -45,7 +46,7 @@ var myprofiler = null;
 		const mytrace = await myprofiler.stop();
 		//console.log("profiler stopped");
 		//console.log(mytrace);
-		myGapFinder(mytrace.samples)	  	  
+		myGapFinder(mytrace);  	  
     };
         
    async function main() {
